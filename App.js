@@ -1,22 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import {Button} from 'nachos-ui';
+import {View} from 'react-native';
+import { ModalStack } from './NavBar';
 
 export default class App extends React.Component {
   render() {
-    return (
-      <View style={styles.container}>
-        <Button> Button </Button>
-      </View>
-    );
+    return <ModalStack />;
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
