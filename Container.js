@@ -1,19 +1,20 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import React from 'react'
+import { View, StyleSheet } from 'react-native';
 
-export default class Container extends React.Component {
-  render() {
-  	return (
+export default class Container extends React.Component{
+    render() {
+      return(
       <View style={styles.container}>
+        {this.props.children}
       </View>
-    );
-  }
+      );
+    }
 }
 
+
 const styles = StyleSheet.create({
-	container: {
+  container: {
     flex: 1,
-    margin: 30,
     backgroundColor: '#fff',
     //alignItems: 'center',
     //justifyContent: 'center',

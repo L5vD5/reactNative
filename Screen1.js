@@ -1,37 +1,32 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import {Button, Bubble} from 'nachos-ui';
+import {Button} from 'nachos-ui';
+import Container from './Container'
 
 export default class Screen2 extends React.Component {
   static navigationOptions = {
-    title: 'Home',
+    title: '시작 화면',
   }
 
   render() {
     return (
-      <View style={styles.container}>
+      <Container>
         <View style={styles.head}>
         </View>
         <View style={styles.body}>
           <Text> 로고 </Text>
         </View>
         <View style={styles.foot}>
-            <Button style={{padding: 10}}> 이용하기 </Button>
+            <Button style={{padding: 10}} onPress={() => this.props.navigation.navigate('First')}> 이용하기 </Button>
             <Button style={{padding: 10}}> 사용 설명서 보기 </Button>
         </View>
-      </View>
+      </Container>
     );
   }
 }
 
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    //alignItems: 'center',
-    //justifyContent: 'center',
-  },
   head: {
     flex: 1,
     //alignItems: 'center',
