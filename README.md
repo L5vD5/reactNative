@@ -1,3 +1,3 @@
 # reactNative
-Korea Univ
 React-navigate install!
+Nachos-ui install!
