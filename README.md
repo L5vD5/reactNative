@@ -1,3 +1,3 @@
 # reactNative
-React-navigate install!
+React-navigate install! <br />
 Nachos-ui install!
