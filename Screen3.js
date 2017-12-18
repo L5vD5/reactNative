@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, TextInput, WebView } from 'react-native';
 import Container from './Container';
-//import MapView from 'react-native-maps';
 
 
 export default class Screen3 extends React.Component {
