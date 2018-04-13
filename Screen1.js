@@ -1,43 +1,144 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import {Button} from 'nachos-ui';
-import Container from './Container'
+import { AsyncStorage, StyleSheet, View, ScrollView, Image } from 'react-native';
+import { Button, Text, Content, Body, Icon, Spinner, Card, CardItem } from 'native-base';
+import {Actions} from 'react-native-router-flux';
+import {getData} from './getData.js';
+import {setLanguage, isFirstLaunch, getLanguage} from './AsyncStorage.js';
+import Swiper from 'react-native-swiper';
 
-export default class Screen2 extends React.Component {
-  static navigationOptions = {
-    title: '시작 화면',
-  }
+export default class Screen1 extends React.Component {
+    constructor(props) {
+        super(props);
 
-  render() {
-    return (
-      <Container>
-        <View style={styles.head}>
-        </View>
-        <View style={styles.body}>
-          <Text> 로고 </Text>
-        </View>
-        <View style={styles.foot}>
-            <Button style={{padding: 10}} onPress={() => this.props.navigation.navigate('First')}> 이용하기 </Button>
-            <Button style={{padding: 10}}> 사용 설명서 보기 </Button>
-        </View>
-      </Container>
-    );
+        this.state = {
+            loaded: false
+        };
+    }
+
+    componentWillMount() {
+        getLanguage(AsyncStorage).then((key) => {
+            if(key == null) {
+               Actions.language(); 
+            } else {
+                this.setState({
+                    language: getData(key),
+                    loaded: true
+                });
+            }
+        });
+    }
+
+    render() {
+        const cards = [
+            {
+                image: require('./img/resources.jpg')
+            },
+            {
+                image: require('./img/resources2.jpeg')
+            },
+            {
+                image: require('./img/resource3.png')
+            }
+        ]
+        return this.state.loaded ? (
+            <ScrollView>
+            <View style={{flexDirection: 'column', backgroundColor: 'white'}}>
+                <View style={styles.card2}>
+                    <Image source={require('./img/cotton.png')} />
+                </View>
+                <View style={{flex: 1, flexDirection: 'row'}}>
+                    <Button style={styles.card} onPress={() => Actions.screen2()}>
+                        <Text style={styles.text}>
+                            {this.state.language.screen1.useNow}
+                        </Text>
+                    </Button>
+                    <Button style={styles.card} onPress={() => Actions.screen2()}>
+                        <Text style={styles.text}>
+                            {this.state.language.screen1.howToUse}
+                        </Text>
+                    </Button>
+                </View>
+                <View style={{flex: 1, flexDirection: 'row'}}>
+                    <Button style={styles.card} onPress={() => Actions.list()}>
+                        <Text style={styles.text}>
+                            {this.state.language.screen1.list}
+                        </Text>
+                    </Button>
+                    <Button style={styles.card} onPress={() => Actions.mapSelect()}>
+                        <Text style={styles.text}>
+                            {this.state.language.screen1.map}
+                        </Text>
+                    </Button>
+                </View>
+                <View style={styles.card3}>
+                    <Swiper autoplay={true}>
+                        <Image
+                            source={cards[0].image}
+                            style={{height: 100, width: '100%', resizeMode: 'stretch'}}
+                         />
+                        <Image
+                            source={cards[1].image}
+                            style={{height: 100, width: '100%', resizeMode: 'stretch'}}
+                         />
+                        <Image
+                            source={cards[2].image}
+                            style={{height: 100, width: '100%', resizeMode: 'stretch'}}
+                         />
+                    </Swiper>
+                    {/*<DeckSwiper
+                        dataSource={cards}
+                        renderItem={item => 
+                            <Card>
+                                <Image
+                                    source={item.image}
+                                    style={{height: 150, width: '100%', resizeMode: 'stretch'}}
+                                 />
+                            </Card>
+                        }
+                    />*/}
+                </View>
+            </View>
+            </ScrollView>
+        ) : (<View style={{height: "100%", alignItems: 'center', justifyContent: 'center'}}>
+            <Spinner />
+        </View>)
   }
 }
 
-
 const styles = StyleSheet.create({
-  head: {
-    flex: 1,
-    //alignItems: 'center',
-    justifyContent: 'center',
-  },
-  body: {
-    flex: 4,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  foot: {
-    flex: 1,
-  },
+    head: {
+        justifyContent: 'center',
+    },
+    body: {
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    text: {
+        fontSize: 19,
+        fontWeight: 'bold',
+        color: 'white'
+    },
+    card: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10,
+        marginLeft: 5,
+        marginRight: 2.5,
+        marginBottom: 5,
+        backgroundColor: '#3db7f0',
+        height: 90,
+        flex: 1
+    },
+    card2: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 300
+    },
+    card3: {
+        marginLeft: 5,
+        marginRight: 5,
+        marginBottom: 5,
+        height: 100,
+        flex: 1
+    }
 });
