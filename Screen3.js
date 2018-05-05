@@ -22,26 +22,12 @@ export default class Screen3 extends React.Component {
             });
         });
 
-        global.checked = new Array;
-        this.props.checked.map((s,i) => {
-            if(s) {
-                global.checked.push(i);
-            }
-        })
-        global.object = {
-            symptom: this.props.symptom == undefined ? {
-            } : this.props.symptom
-        };
-
-        global.object.symptom[this.props.where] = {
-            where: this.props.where,
-            array: global.checked
-        };
     }
 
     render() {
         let where = this.props.where;
-        const goToScreen4 = () => Actions.screen4(global.object);
+        //const goToScreen4 = () => Actions.screen4(global.object);
+        const goToChiefSymptom = () => Actions.chiefSymptom(global.object);
         const goToScreen2 = () => {
             Actions.screen2(global.object);
         }
@@ -99,7 +85,7 @@ export default class Screen3 extends React.Component {
                     />
                     <BottomToolbar.Action
                         title={this.state.language.next}
-                        onPress={() => goToScreen4()}
+                        onPress={() => goToChiefSymptom()}
                     />
                 </BottomToolbar>
             </View>

@@ -32,7 +32,7 @@ export default class Insurance extends React.Component {
         <View style={{flex: 1}}>
             <ScrollView>
                  <ToggleBox label={this.state.language.insurance[0]} style={{backgroundColor: 'white', borderBottomWidth: 0.5}}>
-                    <View style={{padding: 10, alignItems: 'center', justifyContent: 'center', backgroundColor: '#eee'}}>
+                    <View style={{padding: 30, alignItems: 'center', backgroundColor: '#eee'}}>
                         <View>
                             <Text>{this.state.language.insurance[1]}</Text>
                         </View>
@@ -53,7 +53,7 @@ export default class Insurance extends React.Component {
                      </View>
                  </ToggleBox>
                  <ToggleBox label={this.state.language.insurance[6]} style={{backgroundColor: 'white', borderBottomWidth: 0.5}}>
-                    <View style={{padding: 10, alignItems: 'center', justifyContent: 'center', backgroundColor: '#eee'}}>
+                    <View style={{padding: 10, alignItems: 'center', backgroundColor: '#eee'}}>
                         <View>
                             <Text>{this.state.language.insurance[7]}</Text>
                         </View>
@@ -75,7 +75,7 @@ export default class Insurance extends React.Component {
                      </View>
                  </ToggleBox>
                  <ToggleBox label={this.state.language.insurance[13]} style={{backgroundColor: 'white', borderBottomWidth: 0.5}}>
-                     <View style={{padding: 10, alignItems: 'center', justifyContent: 'center', backgroundColor: '#eee'}}>
+                     <View style={{padding: 10, alignItems: 'center', backgroundColor: '#eee'}}>
                         <View>
                             <Text>{this.state.language.insurance[14]}</Text>
                         </View>
@@ -93,7 +93,7 @@ export default class Insurance extends React.Component {
                      </View>
                  </ToggleBox>
                  <ToggleBox label={this.state.language.insurance[18]} style={{backgroundColor: 'white', borderBottomWidth: 0.5}}>
-                     <View style={{padding: 10, alignItems: 'center', justifyContent: 'center', backgroundColor: '#eee'}}>
+                     <View style={{padding: 10, alignItems: 'center', backgroundColor: '#eee'}}>
                         <View>
                             <Text>{this.state.language.insurance[19]}</Text>
                         </View>

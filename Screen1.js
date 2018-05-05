@@ -1,5 +1,5 @@
 import React from 'react';
-import { AsyncStorage, StyleSheet, View, ScrollView, Image } from 'react-native';
+import { AsyncStorage, StyleSheet, View, ScrollView, Image, Linking } from 'react-native';
 import { Button, Text, Content, Body, Icon, Spinner, Card, CardItem } from 'native-base';
 import {Actions} from 'react-native-router-flux';
 import {getData} from './getData.js';
@@ -13,12 +13,18 @@ export default class Screen1 extends React.Component {
         this.state = {
             loaded: false
         };
+        //Linking.openURL("comgooglemaps://");
     }
 
     componentWillMount() {
+        isFirstLaunch(AsyncStorage).then((key) => {
+            if(key == null) {
+                Actions.firstLaunch();
+            }
+        });
         getLanguage(AsyncStorage).then((key) => {
             if(key == null) {
-               Actions.language(); 
+               Actions.language();
             } else {
                 this.setState({
                     language: getData(key),
@@ -40,8 +46,7 @@ export default class Screen1 extends React.Component {
                 image: require('./img/resource3.png')
             }
         ]
-        return this.state.loaded ? (
-            <ScrollView>
+        return this.state.loaded ? (<ScrollView>
             <View style={{flexDirection: 'column', backgroundColor: 'white'}}>
                 <View style={styles.card2}>
                     <Image source={require('./img/cotton.png')} />
@@ -52,11 +57,11 @@ export default class Screen1 extends React.Component {
                             {this.state.language.screen1.useNow}
                         </Text>
                     </Button>
-                    <Button style={styles.card} onPress={() => Actions.screen2()}>
+                    {/*<Button style={styles.card} onPress={() => Actions.screen2()}>
                         <Text style={styles.text}>
                             {this.state.language.screen1.howToUse}
                         </Text>
-                    </Button>
+                    </Button>*/}
                 </View>
                 <View style={{flex: 1, flexDirection: 'row'}}>
                     <Button style={styles.card} onPress={() => Actions.list()}>

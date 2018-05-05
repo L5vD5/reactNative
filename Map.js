@@ -35,7 +35,7 @@ export default class Map extends React.Component {
         return this.state.loaded ? (
             <View style={{flex: 1}}>
                 <WebView
-                    source={{uri: 'https://www.google.co.kr/maps/search/'+this.props.search+'/@'+this.state.longitude+','+this.state.latitude+',17z?hl='+this.state.hl}}
+                    source={{uri: 'https://www.google.co.kr/maps/search/'+this.props.search+'/@'+this.state.latitude+','+this.state.longitude+',17z?hl='+this.state.hl}}
                 />
                 <BottomToolbar>
                     <BottomToolbar.Action

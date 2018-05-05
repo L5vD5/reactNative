@@ -21,11 +21,6 @@ export default class Screen4 extends React.Component {
                 loaded: true
             });
         });
-
-        global.object = {
-            symptom: this.props.symptom,
-            howLong: this.state.selected
-        };
     }
 
     onValueChange(value: string) {
@@ -51,7 +46,7 @@ export default class Screen4 extends React.Component {
                 <ScrollView>
                     <View>
                     <ListItem style={{marginLeft: 0, paddingLeft: 18}}>
-                        <Text> How Long? </Text>
+                        <Text> {this.state.language.sinceWhen} </Text>
                     </ListItem>
                     <Form style={{paddingLeft: 18}}>
                         <Picker
@@ -63,11 +58,11 @@ export default class Screen4 extends React.Component {
                             {/* TODO *****************
 
                             *************************/}
-                            <Item label="A day" value="key0"/>
-                            <Item label="2~7 days" value="key1"/>
-                            <Item label="1~2 weeks" value="key2"/>
-                            <Item label="3~4 weeks" value="key3"/>
-                            <Item label="more than a month" value="key4"/>
+                            <Item label={this.state.language.howLong.key0} value="key0"/>
+                            <Item label={this.state.language.howLong.key1} value="key1"/>
+                            <Item label={this.state.language.howLong.key2} value="key2"/>
+                            <Item label={this.state.language.howLong.key3} value="key3"/>
+                            <Item label={this.state.language.howLong.key4} value="key4"/>
                         </Picker>
                     </Form>
                     </View>

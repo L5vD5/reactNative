@@ -11,6 +11,8 @@ import Map from './Map';
 import MapSelect from './MapSelect';
 import Insurance from './Insurance';
 import List from './List';
+import FirstLaunch from './FirstLaunch';
+import ChiefSymptom from './ChiefSymptom';
 import {Scene, Router, Actions} from 'react-native-router-flux';
 import ContainerWithDrawer from './Container'
 import { getData } from './getData';
@@ -52,6 +54,8 @@ export default class App extends React.Component {
                         <Scene key="mapSelect" component={MapSelect} title="MapSelect" />
                         <Scene key="insurance" component={Insurance} title="Insurance"/>
                         <Scene key="list" component={List} title="List" />
+                        <Scene key="firstLaunch" component={FirstLaunch} title="FirstLaunch" />
+                        <Scene key="chiefSymptom" component={ChiefSymptom} title="CheifSymptom" />
                     </Scene>
                 </Router>
             </ContainerWithDrawer>

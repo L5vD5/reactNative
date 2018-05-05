@@ -4,6 +4,16 @@ export async function isFirstLaunch(AsyncStorage) {
     return value;
 }
 
+export async function setFirstLaunch(AsyncStorage, object) {
+    AsyncStorage.setItem("sex", object.sex); 
+    return AsyncStorage.setItem("firstLaunch", 'false');;
+}
+
+export async function getSex(AsyncStorage) {
+    const value = await AsyncStorage.getItem("sex");
+
+    return value;
+}
 export async function getLanguage(AsyncStorage) {
     const value = await AsyncStorage.getItem("language");
 

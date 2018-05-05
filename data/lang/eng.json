@@ -14,6 +14,8 @@
     "next": "Next",
     "save": "Save",
     "help": "Help",
+    "chiefSymptom": "Chief Symptom",
+    "sinceWhen": "Since when have you been sick?",
     "sideBar": {
         "home": "Home",
         "language": "Language",
@@ -23,7 +25,9 @@
         "people": "Created By"
     },
     "navBar": {
-        "title": "Dasom"
+        "title": {
+            "home": "Dasom"
+         }
     },
     "screen1": {
         "useNow": "Use Now",

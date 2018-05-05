@@ -32,14 +32,9 @@ export default class Symptom extends React.Component {
                 return this.state.language.symptom[s[0]];
             });
 
-            global.index = new Array(global.lists.length);
-            global.index.fill(false);
+            index = new Array(global.lists.length);
+            index.fill(false);
 
-            global.goToNext = () => Actions.screen3({
-                where: this.props.where,
-                checked: this.state.selected2,
-                symptom: this.props.symptom
-            });
             
             this.setState({
                 selected2: global.index,
@@ -49,6 +44,11 @@ export default class Symptom extends React.Component {
      }
 
     render() {
+        const goToNext = () => Actions.screen2({
+            where: this.props.where,
+            checked: this.state.selected2,
+            symptom: this.props.symptom
+        });
         /*let A = lists.map( (s,i) => {
             return <Item key={s[0]} label={s[1]} value={s[1]} />
         });*/
@@ -73,7 +73,7 @@ export default class Symptom extends React.Component {
                     <CheckBox
                         checked = {this.state.selected2[i]}
                         label = {s}
-                        onChange = {() => {
+                        onChange={() => {
                             let newSelected2 = Object.values(this.state.selected2);
                             newSelected2[i] = !newSelected2[i];
                             this.setState({selected2: newSelected2});
@@ -83,27 +83,26 @@ export default class Symptom extends React.Component {
             });
         }
 
-        return this.state.loaded? (
-                <View style={{flex: 1}}>
-                    <ScrollView style={{flex: 1}}>
-                        {B}
-                    </ScrollView>
-                    <BottomToolbar>
-                        <BottomToolbar.Action
-                            title={this.state.language.back}
-                            onPress={() => Actions.pop()}
-                        />
-                        <BottomToolbar.Action
-                            title={this.state.language.help}
-                            onPress={toast}
-                        />
-                        <BottomToolbar.Action
-                            disabled={this.state.selected2.indexOf(true)==-1}
-                            title={this.state.language.next}
-                            onPress={() => global.goToNext()}
-                        />
-                    </BottomToolbar>
-                </View>
+        return this.state.loaded? (<View style={{flex: 1}}>
+            <ScrollView style={{flex: 1}}>
+                {B}
+            </ScrollView>
+            <BottomToolbar>
+                <BottomToolbar.Action
+                    title={this.state.language.back}
+                    onPress={() => Actions.pop()}
+                />
+                <BottomToolbar.Action
+                    title={this.state.language.help}
+                    onPress={toast}
+                />
+                <BottomToolbar.Action
+                    disabled={this.state.selected2.indexOf(true)==-1}
+                    title={this.state.language.next}
+                    onPress={() => goToNext()}
+                />
+            </BottomToolbar>
+        </View>
         ) : (<View style={{height: "100%", alignItems: 'center', justifyContent: 'center'}}>
             <Spinner />
         </View>);

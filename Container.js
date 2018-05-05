@@ -31,7 +31,7 @@ export default class ContainerWithDrawer extends React.Component {
         });
     }
 
-    render() { 
+    render() {
         const topMargin = Platform.OS=='ios'? 0 : Constants.statusBarHeight;
         return this.state.loaded ? (<Drawer
             ref={(ref) => { this.drawer = ref; }}
@@ -41,11 +41,11 @@ export default class ContainerWithDrawer extends React.Component {
 
                 <Header style={{backgroundColor: '#467bec'}}>
                     <Left>
-                        <Icon name="menu" style = {{color: 'white'}} onPress = { () => {this.sideBar.componentWillMount();this.drawer._root.open()} } />
+                        <Icon name="menu" style = {{color: 'white'}} onPress = { () => {this.sideBar.componentWillMount(); this.drawer._root.open()} } />
                     </Left>
                     <Body>
                         <Title style={{color: 'white'}} onPress={() => Actions.screen1()}>
-                            {this.state.language.navBar.title}
+                            {this.state.language.navBar.title["home"]}
                         </Title>
                     </Body>
                     <Right>

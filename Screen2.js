@@ -12,6 +12,23 @@ export default class Screen2 extends React.Component {
         this.state = {
             loaded: false
         }
+        global.checked = new Array;
+        global.object = {
+            symptom: this.props.symptom == undefined ? {
+            } : this.props.symptom
+        };
+        if (this.props.checked!=undefined) {
+            this.props.checked.map((s,i) => {
+                if(s) {
+                    global.checked.push(i);
+                }
+            })
+
+            global.object.symptom[this.props.where] = {
+                where: this.props.where,
+                array: global.checked
+            };
+        }
     }
     componentWillMount() {
         getLanguage(AsyncStorage).then((key) => {
@@ -26,12 +43,14 @@ export default class Screen2 extends React.Component {
     }
 
     render() {
-        const goToHead = () => Actions.part({part: "head", symptom: this.props.symptom});
-        const goToStomach = () => Actions.symptom({where: "stomach", symptom: this.props.symptom});
-        const goToThroatChest = () => Actions.part({part: "throatchest", symptom: this.props.symptom});
-        const goToArmLeg = () => Actions.part({part: "armleg", symptom: this.props.symptom});
-        const goToBottom = () => Actions.symptom({where: "bottom", symptom: this.props.symptom});
-        const goToSkin = () => Actions.symptom({where: "skin", symptom: this.props.symptom});
+        const goToHead = () => Actions.part({part: "head", symptom: global.object.symptom});
+        const goToStomach = () => Actions.symptom({where: "stomach", symptom: global.object.symptom});
+        const goToThroatChest = () => Actions.part({part: "throatchest", symptom: global.object.symptom});
+        const goToArmLeg = () => Actions.part({part: "armleg", symptom: global.object.symptom});
+        const goToBottom = () => Actions.symptom({where: "bottom", symptom: global.object.symptom});
+        const goToSkin = () => Actions.symptom({where: "skin", symptom: global.object.symptom});
+        const goToNext = () => Actions.screen3(global.object);
+ 
         const toast = () => Toast.show({
             text: "Click Sick Area",
             position: "bottom",
@@ -92,6 +111,11 @@ export default class Screen2 extends React.Component {
                     <BottomToolbar.Action
                         title={this.state.language.help}
                         onPress={toast}
+                    />
+                    <BottomToolbar.Action
+                        disabled={this.props.checked==undefined}
+                        title={this.state.language.next}
+                        onPress={() => goToNext()}
                     />
                 </BottomToolbar>
             </View>

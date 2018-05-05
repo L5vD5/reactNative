@@ -15,21 +15,17 @@ export default class List extends React.Component {
             loaded: false
         };
 
-        global.array = null;
         load(AsyncStorage).then( (key) => {
+            global.chiefSymptom = JSON.parse(key).chiefSymptom;
             global.array = Object.values(JSON.parse(key).symptom);
             global.howLong = JSON.parse(key).howLong;
-        })
 
-        getLanguage(AsyncStorage).then((key) => {
-            if(key == null) {
-               Actions.language(); 
-            } else {
+            getLanguage(AsyncStorage).then((key) => {
                 this.setState({
                     language: getData(key),
                     loaded: true
                 });
-            }
+            });
         });
     }
     
@@ -37,6 +33,14 @@ export default class List extends React.Component {
         let korLanguage = getData('ko');
         return this.state.loaded? (<View style={{flex: 1}}>
             <ScrollView>
+                <ListItem style={{paddingLeft: 18, marginLeft: 0}}>
+                    <Text style={{width: "50%", fontSize: 25}}>
+                        주요 증상
+                    </Text>
+                    <Text style={{paddingTop: 18, position: "absolute", textAlign: 'right', left: "50%", width:"50%"}}>
+                        {korLanguage.part[global.chiefSymptom.where]}의 {korLanguage.symptom[global.chiefSymptom.symptom]}
+                    </Text>
+                </ListItem>
                 {global.array.map((s1, i1) => {
                     let array3 = s1.array;
                     return <View key={i1}>
