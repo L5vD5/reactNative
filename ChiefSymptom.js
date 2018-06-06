@@ -1,5 +1,5 @@
 import React from 'react';
-import { ListItem, Text, Content, Spinner, View, Item} from 'native-base';
+import { Toast, ListItem, Text, Content, Spinner, View, Item, Icon} from 'native-base';
 import { ScrollView, AsyncStorage } from 'react-native';
 import { Actions, ActionConst } from 'react-native-router-flux';
 import CheckBox from 'react-native-checkbox';
@@ -31,7 +31,7 @@ export default class ChiefSymptom extends React.Component {
     render() {
         const goToScreen4 = () => Actions.screen4(global.object);
         const toast = () => Toast.show({
-            text: "Select Chief Symptom",
+            text: this.state.language.chiefSymptom,
             position: "bottom",
             buttonText: "quit",
             duration: 3000
@@ -63,7 +63,7 @@ export default class ChiefSymptom extends React.Component {
                                     label = {this.state.language.symptom[getData2().symptom[s1.where][s2][0]]}
                                     onChange={() => {
                                         this.setState({selected: getData2().symptom[s1.where][s2][0]});
-                                        global.object.chiefSymptom = {where: s1.where, symptom: this.state.selected};
+                                        global.object.chiefSymptom = {where: s1.where, symptom: getData2().symptom[s1.where][s2][0]};
                                     }}
                                 />
                             </ListItem>
@@ -73,17 +73,23 @@ export default class ChiefSymptom extends React.Component {
             </ScrollView>
             <BottomToolbar>
                 <BottomToolbar.Action
-                    title={this.state.language.back}
+                    title=''
                     onPress={() => Actions.pop()}
+                    IconComponent= {Icon}
+                    iconName = 'arrow-back'
                 />
                 <BottomToolbar.Action
-                    title={this.state.language.help}
+                    title=''
                     onPress={toast}
+                    IconComponent= {Icon}
+                    iconName = 'help'
                 />
                 <BottomToolbar.Action
                     disabled={this.state.selected == null}
-                    title={this.state.language.next}
+                    title=''
                     onPress={() => goToScreen4()}
+                    IconComponent= {Icon}
+                    iconName = 'arrow-forward'
                 />
             </BottomToolbar>
         </View>) : (<View style={{height: "100%", alignItems: 'center', justifyContent: 'center'}}>

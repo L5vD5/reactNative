@@ -1,11 +1,10 @@
 import React from 'react';
-import { AsyncStorage, StyleSheet, View, ScrollView, Image, Linking } from 'react-native';
+import { Dimensions, Alert, AsyncStorage, Platform, StyleSheet, View, ScrollView, Image, Linking } from 'react-native';
 import { Button, Text, Content, Body, Icon, Spinner, Card, CardItem } from 'native-base';
 import {Actions} from 'react-native-router-flux';
 import {getData} from './getData.js';
 import {setLanguage, isFirstLaunch, getLanguage} from './AsyncStorage.js';
 import Swiper from 'react-native-swiper';
-
 export default class Screen1 extends React.Component {
     constructor(props) {
         super(props);
@@ -13,7 +12,12 @@ export default class Screen1 extends React.Component {
         this.state = {
             loaded: false
         };
-        //Linking.openURL("comgooglemaps://");
+
+        this.googleMapsDownload = () => {Platform.OS=='ios'?
+            Linking.openURL("https://itunes.apple.com/kr/app/google-maps/id585027354?mt=8"):
+            Linking.openURL("https://play.google.com/store/apps/details?id=com.google.android.apps.maps")
+        }
+        this.height = Dimensions.get('window').height-80;
     }
 
     componentWillMount() {
@@ -32,9 +36,48 @@ export default class Screen1 extends React.Component {
                 });
             }
         });
+    
+        if (Platform.OS == 'ios') {
+            //TODO :: It doesn't work. Find another method!
+            Linking.canOpenURL('comgooglemaps://')
+                .then((installed) => {
+                    if(!installed) {
+                        /*Alert.alert(
+                            'No App',
+                            null,
+                            [
+                                {text: 'OK', onPress: () => {this.googleMapsDownload()}},
+                                {text: 'NO', onPress: () => {}},
+                            ],
+                            { cancelable: true }
+                        )*/
+                    }
+                });
+        }
+        else if (Platform.OS == 'android') {
+            Linking.canOpenURL('google.maps://')
+                .then((installed) => {
+                    if(!installed) {
+                        /*Alert.alert(
+                            'No App',
+                            null,
+                            [
+                                {text: 'OK', onPress: () => {this.googleMapsDownload()}},
+                                {text: 'NO', onPress: () => {}},
+                            ],
+                            { cancelable: true }
+                        )*/
+                        global.googleMaps = false
+                    }
+                    else {
+                        global.googleMaps = true
+                    }
+                });
+        }
     }
 
     render() {
+
         const cards = [
             {
                 image: require('./img/resources.jpg')
@@ -47,29 +90,30 @@ export default class Screen1 extends React.Component {
             }
         ]
         return this.state.loaded ? (<ScrollView>
-            <View style={{flexDirection: 'column', backgroundColor: 'white'}}>
-                <View style={styles.card2}>
+            <View style={{flexDirection: 'column', backgroundColor: 'white', height: this.height}}>
+                <View style={styles.card}>
                     <Image source={require('./img/cotton.png')} />
                 </View>
-                <View style={{flex: 1, flexDirection: 'row'}}>
-                    <Button style={styles.card} onPress={() => Actions.screen2()}>
+                <View style={styles.card2}>
+                    <Button style={styles.button} onPress={() => Actions.screen2()}>
                         <Text style={styles.text}>
                             {this.state.language.screen1.useNow}
                         </Text>
                     </Button>
-                    {/*<Button style={styles.card} onPress={() => Actions.screen2()}>
+                    {!global.googleMaps? <Button style={styles.button} onPress={() => this.googleMapsDownload()}>
                         <Text style={styles.text}>
-                            {this.state.language.screen1.howToUse}
+                            Google Maps 
+                            <Icon name='cloud-download' style={{color: 'white'}}/>
                         </Text>
-                    </Button>*/}
+                    </Button> : null}
                 </View>
-                <View style={{flex: 1, flexDirection: 'row'}}>
-                    <Button style={styles.card} onPress={() => Actions.list()}>
+                <View style={styles.card2}>
+                    <Button style={styles.button} onPress={() => Actions.list()}>
                         <Text style={styles.text}>
                             {this.state.language.screen1.list}
                         </Text>
                     </Button>
-                    <Button style={styles.card} onPress={() => Actions.mapSelect()}>
+                    <Button style={styles.button} onPress={() => Actions.mapSelect()}>
                         <Text style={styles.text}>
                             {this.state.language.screen1.map}
                         </Text>
@@ -119,11 +163,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     text: {
+        height: 40,
+        paddingTop: 10,
         fontSize: 19,
         fontWeight: 'bold',
-        color: 'white'
+        color: 'white',
     },
-    card: {
+    button: {
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 10,
@@ -131,19 +177,23 @@ const styles = StyleSheet.create({
         marginRight: 2.5,
         marginBottom: 5,
         backgroundColor: '#3db7f0',
-        height: 90,
+        height: 100,
         flex: 1
     },
-    card2: {
+    card: {
         justifyContent: 'center',
         alignItems: 'center',
-        height: 300
+        height: '47%'
+    },
+    card2: {
+        flexDirection: 'row',
+        height: '18%'
     },
     card3: {
         marginLeft: 5,
         marginRight: 5,
         marginBottom: 5,
-        height: 100,
+        height: '20%',
         flex: 1
     }
 });

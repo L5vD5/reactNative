@@ -1,6 +1,6 @@
 import React from 'react';
-import { AsyncStorage, StyleSheet, View, Image, Text, ScrollView } from 'react-native';
-import { Spinner, ListItem, Item } from 'native-base';
+import { Alert, AsyncStorage, StyleSheet, View, Image, Text, ScrollView } from 'react-native';
+import { Icon, Spinner, ListItem, Item, Button } from 'native-base';
 import {Actions} from 'react-native-router-flux';
 import {getData} from './getData.js';
 import {getData2} from './getData2.js';
@@ -12,20 +12,33 @@ export default class List extends React.Component {
         super(props);
 
         this.state = {
-            loaded: false
+            loaded: false,
+            empty: false
         };
 
         load(AsyncStorage).then( (key) => {
-            global.chiefSymptom = JSON.parse(key).chiefSymptom;
-            global.array = Object.values(JSON.parse(key).symptom);
-            global.howLong = JSON.parse(key).howLong;
-
-            getLanguage(AsyncStorage).then((key) => {
-                this.setState({
-                    language: getData(key),
-                    loaded: true
+            if (key==null) {
+                Alert.alert(
+                    this.state.language.noList,
+                    null,
+                    [
+                        {text: 'OK', onPress: () => Actions.screen1()},
+                    ],
+                    { cancelable: false }
+                )
+            }
+            else {
+                global.chiefSymptom = JSON.parse(key).chiefSymptom;
+                global.array = Object.values(JSON.parse(key).symptom);
+                global.howLong = JSON.parse(key).howLong;
+                
+                getLanguage(AsyncStorage).then((key) => {
+                    this.setState({
+                        language: getData(key),
+                        loaded: true
+                    });
                 });
-            });
+            }
         });
     }
     
@@ -34,22 +47,24 @@ export default class List extends React.Component {
         return this.state.loaded? (<View style={{flex: 1}}>
             <ScrollView>
                 <ListItem style={{paddingLeft: 18, marginLeft: 0}}>
-                    <Text style={{width: "50%", fontSize: 25}}>
-                        주요 증상
-                    </Text>
-                    <Text style={{paddingTop: 18, position: "absolute", textAlign: 'right', left: "50%", width:"50%"}}>
-                        {korLanguage.part[global.chiefSymptom.where]}의 {korLanguage.symptom[global.chiefSymptom.symptom]}
+                    <Text style={{fontSize: 18}}>
+                        가장 급한 증상
+                        {'\t('+this.state.language.listChiefSymptom+')'}
                     </Text>
                 </ListItem>
+                <View style={{ marginTop: 5, marginBottom: 5}}>
+                    <Text style={{textAlign: 'right', width: '100%', paddingRight: 18, fontSize: 22}}>
+                        {'\t'+korLanguage.part[global.chiefSymptom.where]}에서 {korLanguage.symptom[global.chiefSymptom.symptom]}
+                    </Text>
+                </View>
                 {global.array.map((s1, i1) => {
                     let array3 = s1.array;
                     return <View key={i1}>
-                        <View style={{padding: 18, backgroundColor: 'white'}}>
-                            <Text style={{width: "50%", fontSize: 25}}>
-                                {korLanguage.part[s1.where]} 아파요
-                            </Text>
-                            <Text style={{paddingTop: 18, position: "absolute", textAlign: 'right', left: "50%", width:"50%", fontSize: 25}}>
-                                {this.state.language.part[s1.where]}
+                        <View style={{padding: 22, backgroundColor: 'white'}}>
+                            <Text style={{fontSize: 22}}>
+                                {korLanguage.part[s1.where]}
+                                {'('+this.state.language.part[s1.where]+') '}
+                                아파요
                             </Text>
                         </View>
                         <View style={{flexDirection: 'row'}}>
@@ -80,15 +95,17 @@ export default class List extends React.Component {
                     </View>
                 })}
                 <ListItem style={{paddingLeft: 18, marginLeft: 0}}>
-                    <Text style={{fontSize: 25}} >
+                    <Text style={{fontSize: 22}} >
                         {korLanguage.howLong[global.howLong]}정도 아팠어요
                     </Text>
                 </ListItem>
             </ScrollView>
             <BottomToolbar>
                 <BottomToolbar.Action
-                    title={this.state.language.back}
+                    title=''
                     onPress={() => Actions.pop()}
+                    IconComponent= {Icon}
+                    iconName = 'arrow-back'
                 />
             </BottomToolbar>
         </View>) : (<View style={{height: "100%", alignItems: 'center', justifyContent: 'center'}}>

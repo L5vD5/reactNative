@@ -1,5 +1,5 @@
 import React from 'react';
-import { Toast, Content, Text, ListItem, Spinner, View, Button } from 'native-base';
+import { Toast, Content, Text, ListItem, Icon, Spinner, View, Button } from 'native-base';
 import { AsyncStorage, ScrollView } from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import {getData} from './getData.js';
@@ -28,7 +28,7 @@ export default class Part extends React.Component {
     render() {
         var arrayKey;
         const toast = () => Toast.show({
-            text: "Click Sick Area",
+            text: this.state.language.screen2help,
             position: "bottom",
             buttonText: "quit",
             duration: 3000
@@ -36,6 +36,7 @@ export default class Part extends React.Component {
         
         if(this.state.loaded) {
             arrayKey = getData2()[this.props.part];
+            arrayKey.sort();
         }
         return this.state.loaded? (
                 <View style={{flex: 1}}>
@@ -55,12 +56,19 @@ export default class Part extends React.Component {
                     </ScrollView>
                     <BottomToolbar>
                         <BottomToolbar.Action
-                            title={this.state.language.back}
+                            title=''
                             onPress={() => Actions.pop()}
+                            IconComponent= {Icon}
+                            iconName = 'arrow-back'
                         />
                         <BottomToolbar.Action
-                            title={this.state.language.help}
+                            title=""
                             onPress={toast}
+                            IconComponent= {Icon}
+                            iconName = 'help'
+                        />
+                        <BottomToolbar.Action
+                            title=""
                         />
                     </BottomToolbar>
                 </View>

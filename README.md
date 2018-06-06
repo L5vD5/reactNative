@@ -18,6 +18,3 @@
 <pre><code>npm start</code></pre>
 해당 명령을 입력합니다.
 
-## What will I do
-
-- 먼저 완전한 개발버전을 런칭한 후 github을 정리할 예정입니다.

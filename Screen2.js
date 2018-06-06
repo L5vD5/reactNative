@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, TextInput, Image, View, ScrollView, TouchableOpacity, AsyncStorage } from 'react-native';
-import {Button, Text,  Icon, Body, Toast, Content, Spinner} from 'native-base';
+import {Button, Text, Icon, Body, Toast, Content, Spinner} from 'native-base';
 import {Actions} from 'react-native-router-flux';
 import {getData} from './getData.js';
 import {getLanguage} from './AsyncStorage';
@@ -12,23 +12,11 @@ export default class Screen2 extends React.Component {
         this.state = {
             loaded: false
         }
-        global.checked = new Array;
+
         global.object = {
             symptom: this.props.symptom == undefined ? {
             } : this.props.symptom
         };
-        if (this.props.checked!=undefined) {
-            this.props.checked.map((s,i) => {
-                if(s) {
-                    global.checked.push(i);
-                }
-            })
-
-            global.object.symptom[this.props.where] = {
-                where: this.props.where,
-                array: global.checked
-            };
-        }
     }
     componentWillMount() {
         getLanguage(AsyncStorage).then((key) => {
@@ -49,10 +37,9 @@ export default class Screen2 extends React.Component {
         const goToArmLeg = () => Actions.part({part: "armleg", symptom: global.object.symptom});
         const goToBottom = () => Actions.symptom({where: "bottom", symptom: global.object.symptom});
         const goToSkin = () => Actions.symptom({where: "skin", symptom: global.object.symptom});
-        const goToNext = () => Actions.screen3(global.object);
  
         const toast = () => Toast.show({
-            text: "Click Sick Area",
+            text: this.state.language.screen2help,
             position: "bottom",
             buttonText: "quit",
             duration: 3000
@@ -105,17 +92,19 @@ export default class Screen2 extends React.Component {
                 </ScrollView>
                 <BottomToolbar>
                     <BottomToolbar.Action
-                        title={this.state.language.back}
-                        onPress={() => Actions.screen1()}
+                        title=''
+                        onPress={() => Actions.pop()}
+                        IconComponent= {Icon}
+                        iconName = 'arrow-back'
                     />
                     <BottomToolbar.Action
-                        title={this.state.language.help}
+                        title=""
+                        IconComponent= {Icon}
+                        iconName = 'help'
                         onPress={toast}
                     />
                     <BottomToolbar.Action
-                        disabled={this.props.checked==undefined}
-                        title={this.state.language.next}
-                        onPress={() => goToNext()}
+                        title=''
                     />
                 </BottomToolbar>
             </View>

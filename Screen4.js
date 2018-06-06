@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, AsyncStorage, ScrollView } from 'react-native';
-import {Button, Text, ListItem, Item, Picker, Form, Body, Toast, Content, View, Spinner} from 'native-base';
+import {Button, Icon, Text, ListItem, Item, Picker, Form, Body, Toast, Content, View, Spinner} from 'native-base';
 import {Actions} from 'react-native-router-flux';
 import {getData} from './getData.js';
 import {getLanguage, save} from './AsyncStorage';
@@ -36,7 +36,7 @@ export default class Screen4 extends React.Component {
             Actions.screen5(global.object);
         }
         const toast = () => Toast.show({
-            text: "Answer the questions",
+            text: this.state.language.screen4help,
             position: "bottom",
             buttonText: "quit",
             duration: 3000
@@ -69,16 +69,22 @@ export default class Screen4 extends React.Component {
                 </ScrollView>
                 <BottomToolbar>
                     <BottomToolbar.Action
-                        title={this.state.language.back}
+                        title=''
                         onPress={() => Actions.pop()}
+                        IconComponent= {Icon}
+                        iconName = 'arrow-back'
                     />
                     <BottomToolbar.Action
-                        title={this.state.language.help}
+                        title=""
                         onPress={toast}
+                        IconComponent= {Icon}
+                        iconName = 'help'
                     />
                     <BottomToolbar.Action
-                        title={this.state.language.save + "&" + this.state.language.next}
+                        title=''
                         onPress={() => saveAndGoToScreen5()}
+                        IconComponent= {Icon}
+                        iconName = 'arrow-forward'
                     />
                 </BottomToolbar>
             </View>

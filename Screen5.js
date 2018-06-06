@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, AsyncStorage, ScrollView } from 'react-native';
-import {Button, Text,  View, ListItem, Item, Toast, Spinner} from 'native-base';
+import { StyleSheet, AsyncStorage, ScrollView, Platform, Linking, Alert } from 'react-native';
+import { Icon, Button, Text,  View, ListItem, Item, Toast, Spinner} from 'native-base';
 import {Actions} from 'react-native-router-flux';
 import {getData} from './getData.js';
 import {getData2} from './getData2.js';
@@ -36,7 +36,7 @@ export default class Screen5 extends React.Component {
         let array2 = Object.values(global.object.symptom);
         var department;
         const toast = () => Toast.show({
-            text: "Click proper department to search location",
+            text: this.state.language.screen5help,
             position: "bottom",
             buttonText: "quit",
             duration: 3000
@@ -131,7 +131,7 @@ export default class Screen5 extends React.Component {
                         return item["index"]?<ListItem 
                             key={i}
                             style={{paddingLeft: 18, marginLeft: 0}}
-                            onPress={() => Actions.map({search: item["search"]})}
+                            onPress={() => Linking.openURL('https://www.google.com/maps/search/'+item['search']+'/My+Location')}
                         >
                             <Text style={{width: "50%"}}> {item["name"]} </Text>
                             <AnimatedCircularProgress
@@ -150,12 +150,19 @@ export default class Screen5 extends React.Component {
                 </ScrollView>
                 <BottomToolbar>
                     <BottomToolbar.Action
-                        title={this.state.language.back}
+                        title=''
                         onPress={() => Actions.pop()}
+                        IconComponent= {Icon}
+                        iconName = 'arrow-back'
                     />
                     <BottomToolbar.Action
-                        title={this.state.language.help}
+                        title=""
                         onPress={toast}
+                        IconComponent= {Icon}
+                        iconName = 'help'
+                    />
+                    <BottomToolbar.Action
+                        title=""
                     />
                 </BottomToolbar>
             </View>

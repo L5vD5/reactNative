@@ -1,6 +1,6 @@
 import React from 'react';
 import { AsyncStorage, StyleSheet, View, ScrollView, Image } from 'react-native';
-import { Spinner, Content, Text} from 'native-base';
+import { Icon, Spinner, Content, Text} from 'native-base';
 import {getData} from './getData';
 import {isFirstLaunch, getLanguage} from './AsyncStorage';
 import {Actions} from 'react-native-router-flux';
@@ -123,8 +123,10 @@ export default class Insurance extends React.Component {
             </ScrollView>
             <BottomToolbar>
                 <BottomToolbar.Action
-                    title={this.state.language.back}
+                    title=''
                     onPress={() => Actions.pop()}
+                    IconComponent= {Icon}
+                    iconName = 'arrow-back'
                 />
             </BottomToolbar>
         </View>

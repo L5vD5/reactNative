@@ -1,6 +1,6 @@
 import React from 'react';
-import {AsyncStorage, ScrollView} from 'react-native';
-import { Toast, View, Body, Text, Content, Spinner, Footer, Button, List, ListItem, Form, Picker, Item, Radio } from 'native-base';
+import { Alert, AsyncStorage, ScrollView} from 'react-native';
+import { Toast, View, Body, Text, Content, Icon, Spinner, Footer, Button, List, ListItem, Form, Picker, Item, Radio } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import {getData} from './getData.js';
 import {getData2} from './getData2.js';
@@ -31,30 +31,52 @@ export default class Symptom extends React.Component {
             global.lists = symptom[where].map( (s,i) => {
                 return this.state.language.symptom[s[0]];
             });
+            //global.lists.sort();
 
             index = new Array(global.lists.length);
             index.fill(false);
-
             
             this.setState({
                 selected2: global.index,
                 loaded: true
             });
         });
-     }
+    }
 
-    render() {
+    question() {
         const goToNext = () => Actions.screen2({
             where: this.props.where,
-            checked: this.state.selected2,
             symptom: this.props.symptom
         });
+
+        global.checked = new Array();
+        this.state.selected2.map((s,i) => {
+            if(s) {
+                global.checked.push(i);
+            }
+        })
+        global.object.symptom[this.props.where] = {
+            where: this.props.where,
+            array: global.checked
+        };
+        Alert.alert(
+            this.state.language.moreSymptom,
+            null,
+            [
+                {text: 'OK', onPress: () => goToNext()},
+                {text: 'NO', onPress: () => Actions.screen3(global.object)},
+            ],
+            { cancelable: false }
+        )
+    }
+
+    render() {
         /*let A = lists.map( (s,i) => {
             return <Item key={s[0]} label={s[1]} value={s[1]} />
         });*/
         var B;
         const toast = () => Toast.show({
-            text: "Check Symptom",
+            text: this.state.language.symptomHelp,
             position: "bottom",
             buttonText: "quit",
             duration: 3000
@@ -89,17 +111,23 @@ export default class Symptom extends React.Component {
             </ScrollView>
             <BottomToolbar>
                 <BottomToolbar.Action
-                    title={this.state.language.back}
+                    title=''
                     onPress={() => Actions.pop()}
+                    IconComponent= {Icon}
+                    iconName = 'arrow-back'
                 />
                 <BottomToolbar.Action
-                    title={this.state.language.help}
+                    title=""
                     onPress={toast}
+                    IconComponent= {Icon}
+                    iconName = 'help'
                 />
                 <BottomToolbar.Action
                     disabled={this.state.selected2.indexOf(true)==-1}
-                    title={this.state.language.next}
-                    onPress={() => goToNext()}
+                    title=''
+                    onPress={() => this.question()}
+                    IconComponent= {Icon}
+                    iconName = 'arrow-forward'
                 />
             </BottomToolbar>
         </View>

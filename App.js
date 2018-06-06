@@ -14,6 +14,7 @@ import List from './List';
 import FirstLaunch from './FirstLaunch';
 import ChiefSymptom from './ChiefSymptom';
 import {Scene, Router, Actions} from 'react-native-router-flux';
+import {BackHandler} from 'react-native';
 import ContainerWithDrawer from './Container'
 import { getData } from './getData';
 import { Root } from 'native-base';
@@ -35,6 +36,10 @@ export default class App extends React.Component {
             'EvilIcons': require("@expo/vector-icons/fonts/EvilIcons.ttf")
         });
         this.setState({ fontLoaded: true });
+
+        BackHandler.addEventListener("hardwareBackPress", () => {
+            return true;
+        });
     }
 
     render() {
